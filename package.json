@@ -9,14 +9,14 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "firebase": "^8.7.1",
+    "firebase": "^8.10.1",
     "quill": "^1.3.7",
     "quill-image-resize-module": "^3.0.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vue-svg-loader": "^0.16.0",
     "vue2-editor": "^2.10.2",
-    "vuesax": "^3.12.2",
+    "vuesax": "^4.0.1-alpha.25",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
