@@ -3,9 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Vue2Editor from "vue2-editor";
+import Vuesax from "vuesax";
 
 import '../src/styles/main.scss';
+import 'vuesax/dist/vuesax.css';
 
+Vue.use(Vuesax);
 Vue.use(Vue2Editor);
 
 Vue.config.productionTip = false;
