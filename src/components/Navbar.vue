@@ -1,8 +1,8 @@
   <template>
-    <div class="center examplex">
+    <div class="center navbar">
       <vs-navbar fixed center-collapsed v-model="active">
         <template #left>
-          <img src="/logo2.png" alt="">
+          <vs-navbar-item>Onur Ucar</vs-navbar-item>
         </template>
         <vs-navbar-item :active="active == 'projects'" id="projects">
           Projects
@@ -26,8 +26,13 @@
   </template>
 <script>
 export default {
+  name: "Navbar",
   data: () => ({
-    active: 0
+    active: 0,
   })
 };
 </script>
+
+<style scoped>
+
+</style>
