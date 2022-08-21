@@ -1,39 +1,52 @@
 <template>
-  <div class="container blog-previews">
-    <vs-card class="card" type="1" v-for="card in 3" :key="card">
-      <template #title>
-        <h3>Pot with a plant</h3>
-      </template>
-      <template #img>
-        <img src="../assets/logo.png" alt="" />
-      </template>
-      <template #text>
-        <p>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-        </p>
-      </template>
+  <div class="container">
+    <h3 class="blog-heading">My most recent blogs</h3>
+    <div class="blog-previews">
+      <vs-card class="card" type="1" v-for="card in 3" :key="card">
+        <template #title>
+          <h3>Pot with a plant</h3>
+        </template>
+        <template #img>
+          <img src="../assets/logo.png" alt="" />
+        </template>
+        <template #text>
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+          </p>
+        </template>
 
-      <template #interactions>
-        <vs-button danger icon>
-          <box-icon name="heart" color="white"></box-icon>
-        </vs-button>
-        <vs-button class="btn-chat" shadow primary>
-          <box-icon name="chat"></box-icon>
-          <span class="comment-count">31</span>
-        </vs-button>
-      </template>
-    </vs-card>
+        <template #interactions>
+          <vs-button danger icon>
+            <box-icon name="heart" color="white"></box-icon>
+          </vs-button>
+          <vs-button class="btn-chat" shadow primary>
+            <box-icon name="chat"></box-icon>
+            <span class="comment-count">31</span>
+          </vs-button>
+        </template>
+      </vs-card>
+    </div>
   </div>
 </template>
 
 <script>
 import "boxicons";
+import "boxicons/css/boxicons.min.css";
+
 export default {
   name: "BlogPost",
 };
 </script>
 
 <style lang="scss">
+
+.blog-heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+
 .blog-previews {
   display: flex;
   flex-direction: row;
@@ -48,7 +61,6 @@ export default {
     .comment-count {
       margin-left: 10px;
     }
-
   }
 }
 

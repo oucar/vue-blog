@@ -38,6 +38,7 @@ export default {
 
 @media screen and (max-width: 600px) {
     .hero {
+      margin-top: 25px;
         img {
             display: none;
         }
