@@ -19,7 +19,7 @@
         <template #right>
           <!-- @TODO: Conditional Login / Register will go here -->
           <vs-button flat >Login</vs-button>
-          <vs-button>Get Started</vs-button>
+          <vs-button>Register</vs-button>
         </template>
       </vs-navbar>
     </div>
@@ -34,5 +34,7 @@ export default {
 </script>
 
 <style scoped>
+
+
 
 </style>
