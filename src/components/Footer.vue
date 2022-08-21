@@ -36,8 +36,7 @@ $space : 7px;
 
 footer {
     width: 100%;
-    padding: $space*2 0;
-    margin-top: 10px;
+    margin-top:auto; 
     
     display: flex;
     flex-direction: column;
