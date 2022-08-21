@@ -1,5 +1,5 @@
 <template>
-    <footer>
+    <footer class="container">
         <div class="row icons">
             <a href="https://github.com/oucar" target="_blank">
                 <GithubLogo href="google.com"/>
@@ -35,10 +35,9 @@ export default {
 $space : 7px;
 
 footer {
-    position:fixed;
-    bottom: 0;
     width: 100%;
     padding: $space*2 0;
+    margin-top: 10px;
     
     display: flex;
     flex-direction: column;
@@ -57,11 +56,7 @@ footer {
 
     .row {
         margin: $space 0;
-        
     }
-
-
-
 }
 
 
