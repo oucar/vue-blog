@@ -30,15 +30,21 @@
       </vs-navbar-item>
       <template #right>
         <!-- @TODO: Conditional Login / Register will go here -->
-        <vs-button flat>Login</vs-button>
-        <vs-button>Register</vs-button>
+        <Login></Login>
+        <Register></Register>
       </template>
     </vs-navbar>
   </div>
 </template>
 <script>
+import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
 export default {
   name: "Navbar",
+  components: {
+    Login,
+    Register,
+  },
   data: () => ({
     active: 0,
   }),
