@@ -61,10 +61,9 @@
                 <box-icon name="edit-alt" color="white"></box-icon>
               </vs-button>
               <vs-button danger icon>
-                <box-icon name='trash' color="white"></box-icon>
+                <box-icon name="trash" color="white"></box-icon>
               </vs-button>
             </div>
-            
           </template>
         </vs-card>
       </div>
