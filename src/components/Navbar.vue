@@ -1,6 +1,6 @@
 <template>
   <div class="center navbar">
-    <vs-navbar fixed center-collapsed v-model="active">
+    <vs-navbar fixed center-collapsed shadow padding-scroll not-line v-model="active">
       <template #left>
         <vs-navbar-item>
           <router-link class="link" :to="{ name: 'Home' }">
