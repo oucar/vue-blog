@@ -11,12 +11,12 @@
       <div class="con-form">
         <vs-input v-model="email" placeholder="Email">
           <template #icon>
-            <box-icon name="user"></box-icon>
+            <UserIcon />
           </template>
         </vs-input>
         <vs-input type="password" v-model="password" placeholder="Password">
           <template #icon>
-            <box-icon name="lock-alt"></box-icon>
+            <LockAltIcon/>
           </template>
         </vs-input>
         <div class="flex">
@@ -39,8 +39,14 @@
   </div>
 </template>
 <script>
+import UserIcon from "@/assets/Icons/user.svg";
+import LockAltIcon from "@/assets/Icons/lock-alt.svg";
 export default {
   name: "Login",
+  components: {
+    UserIcon,
+    LockAltIcon,
+  },
   data: () => ({
     active: false,
     email: "",
