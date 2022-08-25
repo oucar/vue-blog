@@ -3,7 +3,7 @@
     <vs-button flat @click="active = !active">
       Login
     </vs-button>
-    <vs-dialog v-model="active">
+    <vs-dialog v-model="active" :loading="isLoading">
       <template #header>
         <h4 class="not-margin">Welcome to <b>Onur's Blog</b></h4>
       </template>
@@ -16,19 +16,30 @@
         </vs-input>
         <vs-input type="password" v-model="password" placeholder="Password">
           <template #icon>
-            <LockAltIcon/>
+            <LockAltIcon />
           </template>
         </vs-input>
         <div class="flex">
           <vs-checkbox v-model="remember">Remember me</vs-checkbox>
           <!-- @TODO: Add validation to email, will be only visible if an email is entered -->
-          <a @click="openNotification('bottom-center', 'primary')" class="link">Forgot Password?</a>
+          <a
+            @click="
+              openNotification(
+                'bottom-center',
+                'primary',
+                'Well, I just sent an e-mail to you.',
+                `Please check your email (${this.email}) and click on the provided link to reset your password!`
+              )
+            "
+            class="link"
+            >Forgot Password?</a
+          >
         </div>
       </div>
 
       <template #footer>
         <div class="footer-dialog">
-          <vs-button block>
+          <vs-button block @click.prevent="signIn">
             Sign In
           </vs-button>
 
@@ -41,6 +52,9 @@
 <script>
 import UserIcon from "@/assets/Icons/user.svg";
 import LockAltIcon from "@/assets/Icons/lock-alt.svg";
+import firebase from "firebase/app";
+import "firebase/auth";
+
 export default {
   name: "Login",
   components: {
@@ -53,9 +67,22 @@ export default {
     password: "",
     remember: false,
     forgotPassword: false,
+    isLoading: false,
   }),
   methods: {
+    async signIn() {
+      this.isLoading = true;
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(() => {
+        this.active = false;
+        this.openNotification('bottom-center', 'success', 'Welcome!', `It's really great to see you here, my friend.`);
+      }).catch(err => {
+        this.openNotification('bottom-center', 'danger', 'Oh...', `${err.message}`);
+      });
+      this.isLoading = false;
+
+    },
     forgotPasswordClicked() {
+      // @TODO: Actual Firebase Implementation
       if (this.forgotPassword === false) this.forgotPassword = true;
       else {
         setTimeout(() => {
@@ -63,13 +90,13 @@ export default {
         }, 5000);
       }
     },
-    openNotification(position = null, color) {
+    openNotification(position = null, color, title, message) {
       const notification = this.$vs.notification({
         progress: "auto",
         color,
         position,
-        title: "Well, I just sent an e-mail to you.",
-        text: `Please check your email (${this.email}) and click on the provided link to reset your password!`,
+        title: title,
+        text: message,
       });
       console.log(notification);
     },
