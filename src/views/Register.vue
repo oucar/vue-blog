@@ -3,30 +3,35 @@
     <vs-button gradient primary @click="active = !active">
       Register
     </vs-button>
-    <vs-dialog overflow-hidden full-screen v-model="active">
+    <vs-dialog
+      overflow-hidden
+      full-screen
+      :loading="isLoading"
+      v-model="active"
+    >
       <template #header>
         <h4 class="not-margin">Welcome to <b>Vuesax</b></h4>
       </template>
 
       <div class="con-form">
-        <!-- Email -->
-        <vs-input v-model="input1" placeholder="Email">
+        <!-- Username -->
+        <vs-input v-model="username" placeholder="Username">
           <template #icon>
             <UserIcon />
           </template>
         </vs-input>
 
-        <!-- Username -->
-        <vs-input v-model="input1" placeholder="Username">
+        <!-- Email -->
+        <vs-input v-model="email" placeholder="Email">
           <template #icon>
-            <UserCircleIcon />
+            <EmailIcon />
           </template>
         </vs-input>
 
         <!-- Password -->
         <vs-input
           type="password"
-          v-model="value"
+          v-model="password"
           placeholder="Password"
           :progress="getProgress"
           :visiblePassword="hasVisiblePassword"
@@ -47,15 +52,15 @@
           </template>
         </vs-input>
 
-        <!-- Name -->
-        <vs-input v-model="input1" placeholder="Name">
+        <!-- First Name -->
+        <vs-input v-model="firstName" placeholder="First Name">
           <template #icon>
             <CoolIcon />
           </template>
         </vs-input>
 
         <!-- Last name-->
-        <vs-input v-model="input1" placeholder="Email">
+        <vs-input v-model="lastName" placeholder="Last Name">
           <template #icon>
             <SmileIcon />
           </template>
@@ -64,7 +69,7 @@
 
       <template #footer>
         <div class="footer-dialog">
-          <vs-button block>
+          <vs-button block @click.prevent="register">
             Register
           </vs-button>
         </div>
@@ -76,42 +81,104 @@
 import ShowIcon from "@/assets/Icons/show.svg";
 import HideIcon from "@/assets/Icons/hide.svg";
 import UserIcon from "@/assets/Icons/user.svg";
-import UserCircleIcon from "@/assets/Icons/userCircle.svg";
+import EmailIcon from "@/assets/Icons/email.svg";
 import CoolIcon from "@/assets/Icons/cool.svg";
 import SmileIcon from "@/assets/Icons/smile.svg";
+import firebase from "firebase/app";
+import "firebase/auth";
+import db from "@/firebase/firebaseInit";
 export default {
   name: "Register",
   components: {
     HideIcon,
     ShowIcon,
     UserIcon,
-    UserCircleIcon,
+    EmailIcon,
     CoolIcon,
     SmileIcon,
   },
   data: () => ({
     active: false,
-    input1: "",
-    input2: "",
-    checkbox1: false,
-    value: "",
+    email: "",
+    username: "",
+    password: "",
+    firstName: "",
+    lastName: "",
     hasVisiblePassword: false,
+    isLoading: false,
   }),
+  methods: {
+    async register() {
+      if (
+        this.email !== "" &&
+        this.username !== "" &&
+        this.firstName !== "" &&
+        this.password !== "" &&
+        this.lastName !== ""
+      ) {
+        this.isLoading = true;
+        const firebaseAuth = await firebase.auth();
+        const createUser = await firebaseAuth.createUserWithEmailAndPassword(
+          this.email,
+          this.password
+        );
+        // can get the created user id
+        const result = await createUser;
+        const dataBase = db.collection("users").doc(result.user.uid);
+        await dataBase.set({
+          username: this.username,
+          email: this.email,
+          firstName: this.firstName,
+          lastName: this.lastName,
+        });
+        this.active = false;
+        this.openNotification(
+          "bottom-center",
+          "success",
+          "Yes!!",
+          "You have succesfully registered!"
+        );
+        this.isLoading = false;
+        this.resetFields();
+        return;
+      }
+      this.openNotification(
+        "bottom-center",
+        "danger",
+        "Oh no...",
+        "Please make sure you filled all the fields!!"
+      );
+    },
+    openNotification(position = null, color, title, message) {
+      const notification = this.$vs.notification({
+        progress: "auto",
+        color,
+        position,
+        title: title,
+        text: message,
+      });
+      console.log(notification);
+    },
+    resetFields() {
+      this.email = this.password = this.username = this.firstName = this.lastName =
+        "";
+    },
+  },
   computed: {
     getProgress() {
       let progress = 0;
 
       // at least one number
-      if (/\d/.test(this.value)) progress += 25;
+      if (/\d/.test(this.password)) progress += 25;
 
       // at least one capital letter
-      if (/(.*[A-Z].*)/.test(this.value)) progress += 25;
+      if (/(.*[A-Z].*)/.test(this.password)) progress += 25;
 
       // at menons a lowercase
-      if (/(.*[a-z].*)/.test(this.value)) progress += 25;
+      if (/(.*[a-z].*)/.test(this.password)) progress += 25;
 
       // more than 5 digits
-      if (this.value.length >= 6) progress += 25;
+      if (this.password.length >= 6) progress += 25;
 
       return progress;
     },
