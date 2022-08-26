@@ -36,7 +36,10 @@
         </router-link>
       </vs-navbar-item>
       <template #right>
-        <vs-tooltip bottom shadow not-hover v-model="activeTooltip">
+        <Login v-if="getUserDetails[0] === null"></Login>
+        <Register v-if="getUserDetails[0] === null"></Register>
+
+        <vs-tooltip v-else bottom shadow not-hover v-model="activeTooltip">
           <vs-avatar class="profile" @click="activeTooltip = !activeTooltip">
             <template #text>
               {{ getUserDetails[1] }}
@@ -54,18 +57,18 @@
                 </div>
               </div>
               <vs-button @click="activeTooltip = false" flat dark block>
-                Profile
+                <router-link to="#"> Profile </router-link>
                 <template #animate>
                   <ProfileIcon />
                 </template>
               </vs-button>
               <vs-button @click="activeTooltip = false" flat dark block>
-                Admin
+              <router-link to="#"> Admin </router-link>
                 <template #animate>
                   <KeyIcon />
                 </template>
               </vs-button>
-              <vs-button @click="activeTooltip = false" flat dark block>
+              <vs-button @click="signOut" flat dark block>
                 Sign Out
                 <template #animate>
                   <SignOutIcon />
@@ -74,9 +77,6 @@
             </div>
           </template>
         </vs-tooltip>
-
-        <Login v-if="getUserDetails[0] === null"></Login>
-        <Register v-if="getUserDetails[0] === null"></Register>
       </template>
     </vs-navbar>
   </div>
@@ -88,6 +88,8 @@ import SmileIcon from "@/assets/Icons/smile.svg";
 import ProfileIcon from "@/assets/Icons/user.svg";
 import KeyIcon from "@/assets/Icons/key.svg";
 import SignOutIcon from "@/assets/Icons/signOut.svg";
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
   name: "Navbar",
   components: {
@@ -102,6 +104,12 @@ export default {
     active: 0,
     activeTooltip: false,
   }),
+  methods: {
+    signOut(){
+      firebase.auth().signOut();
+      window.location.reload();
+    }
+  },
   computed: {
     getUserDetails() {
       return [
