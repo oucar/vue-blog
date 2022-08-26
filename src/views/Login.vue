@@ -22,18 +22,7 @@
         <div class="flex">
           <vs-checkbox v-model="remember">Remember me</vs-checkbox>
           <!-- @TODO: Add validation to email, will be only visible if an email is entered -->
-          <a
-            @click="
-              openNotification(
-                'bottom-center',
-                'primary',
-                'Well, I just sent an e-mail to you.',
-                `Please check your email (${this.email}) and click on the provided link to reset your password!`
-              )
-            "
-            class="link"
-            >Forgot Password?</a
-          >
+          <a @click.prevent="resetPassword" class="link">Forgot Password?</a>
         </div>
       </div>
 
@@ -72,14 +61,27 @@ export default {
   methods: {
     async signIn() {
       this.isLoading = true;
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(() => {
-        this.active = false;
-        this.openNotification('bottom-center', 'success', 'Welcome!', `It's really great to see you here, my friend.`);
-      }).catch(err => {
-        this.openNotification('bottom-center', 'danger', 'Oh...', `${err.message}`);
-      });
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.email, this.password)
+        .then(() => {
+          this.active = false;
+          this.openNotification(
+            "bottom-center",
+            "success",
+            "Welcome!",
+            `It's really great to see you here, my friend.`
+          );
+        })
+        .catch((err) => {
+          this.openNotification(
+            "bottom-center",
+            "danger",
+            "Oh...",
+            `${err.message}`
+          );
+        });
       this.isLoading = false;
-
     },
     forgotPasswordClicked() {
       // @TODO: Actual Firebase Implementation
@@ -99,6 +101,30 @@ export default {
         text: message,
       });
       console.log(notification);
+    },
+    async resetPassword() {
+      this.isLoading = true;
+      firebase
+        .auth()
+        .sendPasswordResetEmail(this.email)
+        .then(() => {
+          this.openNotification(
+            "bottom-center",
+            "primary",
+            "Sure thing!",
+            "You will receive an e-mail in a few minutes with the instructions on how to reset your password. Don't forget to check your spam folder."
+          );
+          this.loading = false;
+        })
+        .catch((err) => {
+          this.openNotification(
+            "bottom-center",
+            "danger",
+            "Oh...",
+            `${err.message}`
+          );
+          this.isLoading = false;
+        });
     },
   },
 };
