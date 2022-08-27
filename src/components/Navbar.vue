@@ -56,18 +56,25 @@
                   <p>{{ getUserDetails[3] }}</p>
                 </div>
               </div>
-              <vs-button @click="activeTooltip = false" flat dark block>
-                <router-link to="#"> Profile </router-link>
-                <template #animate>
-                  <ProfileIcon />
-                </template>
-              </vs-button>
-              <vs-button @click="activeTooltip = false" flat dark block>
-              <router-link to="#"> Admin </router-link>
-                <template #animate>
-                  <KeyIcon />
-                </template>
-              </vs-button>
+
+              <router-link :to="{ name: 'Profile' }">
+                <vs-button @click="activeTooltip = false" flat dark block>
+                  Profile
+                  <template #animate>
+                    <ProfileIcon />
+                  </template>
+                </vs-button>
+              </router-link>
+
+              <router-link :to="{ name: 'Admin' }">
+                <vs-button @click="activeTooltip = false" flat dark block>
+                  Admin
+                  <template #animate>
+                    <KeyIcon />
+                  </template>
+                </vs-button>
+              </router-link>
+              
               <vs-button @click="signOut" flat dark block>
                 Sign Out
                 <template #animate>
@@ -105,10 +112,10 @@ export default {
     activeTooltip: false,
   }),
   methods: {
-    signOut(){
+    signOut() {
       firebase.auth().signOut();
       window.location.reload();
-    }
+    },
   },
   computed: {
     getUserDetails() {
