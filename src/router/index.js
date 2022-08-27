@@ -5,6 +5,8 @@ import Blog from "@/views/Blog.vue";
 import Projects from "@/views/Projects.vue";
 import Experiences from "@/views/Experiences.vue";
 import Contact from "@/views/Contact.vue";
+import Profile from "@/views/Profile.vue";
+import Admin from "@/views/Admin.vue";
 
 Vue.use(VueRouter);
 
@@ -47,6 +49,22 @@ const routes = [
     component: Contact,
     meta: {
       title: 'Contact'
+    }
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+    meta: {
+      title: 'Profile'
+    }
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
+    meta: {
+      title: 'Admin'
     }
   },
 ];

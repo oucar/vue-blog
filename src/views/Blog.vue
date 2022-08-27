@@ -14,7 +14,7 @@
 
       <div class="search">
         <div class="input-fields">
-          <vs-input label-placeholder="Author" primary v-model="author">
+          <vs-input label-placeholder="Author" primary v-model="author" type="search">
             <template #icon> <box-icon name="user"></box-icon> </template
           ></vs-input>
 
@@ -22,6 +22,7 @@
             label-placeholder="Article Name"
             primary
             v-model="articleName"
+            type="search"
           >
             <template #icon> <box-icon name="book"></box-icon> </template
           ></vs-input>
@@ -93,7 +94,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0 40px;
+    padding: 0 0 40px;
   }
 
   .blog-previews {
