@@ -15,6 +15,7 @@ export default new Vuex.Store({
     profileUsername: null,
     profileId: null,
     profileInitials: null,
+    isAdmin: false,
   },
   mutations: {
     updateUser(state, payload) {
@@ -26,6 +27,7 @@ export default new Vuex.Store({
       state.profileFirstName = doc.data().firstName;
       state.profileLastName = doc.data().lastName;
       state.profileUsername = doc.data().username;
+      state.isAdmin = doc.data().isAdmin;
     },
     setProfileInitials(state) {
       state.profileInitials = state.profileFirstName.match(/(\b\S)?/g).join("") + state.profileLastName.match(/(\b\S)?/g).join("");
@@ -59,9 +61,7 @@ export default new Vuex.Store({
         username: state.profileUsername,
       });
       commit("setProfileInitials");
-
     }
-
   },
   modules: {}
 })
