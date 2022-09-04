@@ -38,12 +38,14 @@
           Toggle Edit/Delete Mode
         </vs-checkbox>
 
-        <vs-button v-if="isAdmin" class="button" icon gradient animation-type="vertical">
-          Create a new blog
-          <template #animate>
-            <PencilIcon />
-          </template>
-        </vs-button>
+        <router-link v-if="isAdmin"  lass="link" :to="{ name: 'CreatePost' }">
+          <vs-button class="button" icon gradient animation-type="vertical">
+            Create a new blog
+            <template #animate>
+              <PencilIcon />
+            </template>
+          </vs-button>
+      </router-link>
       </div>
 
       <div class="blog-previews">

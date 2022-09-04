@@ -6,8 +6,10 @@ import db from "@/firebase/firebaseInit";
 
 Vue.use(Vuex)
 
+// TODO: CREATE MODULES LATER
 export default new Vuex.Store({
   state: {
+    // user related
     user: null,
     profileEmail: null,
     profileFirstName: null,
@@ -16,6 +18,13 @@ export default new Vuex.Store({
     profileId: null,
     profileInitials: null,
     isAdmin: false,
+    // blog related
+    blogHTML: "Blog Title",
+    blogTitle: null,
+    blogPhotoName: null,
+    blogPhotoFileURL: null,
+    blogPhotoPreview: null,
+    editPost: null,
   },
   mutations: {
     updateUser(state, payload) {
