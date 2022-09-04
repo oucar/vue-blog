@@ -65,16 +65,7 @@
                   </template>
                 </vs-button>
               </router-link>
-
-              <router-link :to="{ name: 'Admin' }">
-                <vs-button @click="activeTooltip = false" flat dark block>
-                  Admin
-                  <template #animate>
-                    <KeyIcon />
-                  </template>
-                </vs-button>
-              </router-link>
-              
+            
               <vs-button @click="signOut" flat dark block>
                 Sign Out
                 <template #animate>
@@ -93,7 +84,6 @@ import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import SmileIcon from "@/assets/Icons/smile.svg";
 import ProfileIcon from "@/assets/Icons/user.svg";
-import KeyIcon from "@/assets/Icons/key.svg";
 import SignOutIcon from "@/assets/Icons/signOut.svg";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -104,7 +94,6 @@ export default {
     Register,
     SmileIcon,
     ProfileIcon,
-    KeyIcon,
     SignOutIcon,
   },
   data: () => ({
