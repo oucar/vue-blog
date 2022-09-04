@@ -18,20 +18,25 @@
                 >Upload Cover Photo</label
               >
             </vs-button>
-            <span v-if="this.$store.state.blogPhotoName"
-              >File Chosen:
-              {{ this.$store.state.blogPhotoName.slice(0, 15) }}...</span
+            <span v-if="blogPhotoName"
+              >File Chosen: {{ blogPhotoName.slice(0, 15) }}...</span
             >
           </div>
 
-          <input type="file" id="blog-photo" accept=".png, .jpg, .jpeg" />
+          <input
+            type="file"
+            id="blog-photo"
+            accept=".png, .jpg, .jpeg"
+            @change="fileChange"
+            ref="blogPhoto"
+          />
           <!-- Preview -->
           <vs-button
-            v-if="!this.$store.state.blogPhotoFileURL"
             primary
             gradient
             @click="active = !active"
             class="preview-button"
+            :disabled="previewButton"
           >
             Preview Cover Photo
           </vs-button>
@@ -39,14 +44,7 @@
           <!-- Preview Content -->
           <vs-dialog width="550px" not-center v-model="active">
             <div class="con-content">
-              <p>
-                Vuesax is a relatively new framework with a refreshing design
-                and in the latest trends, vuesax based on vuejs which means that
-                we go hand in hand with one of the most popular javascript
-                frameworks in the world and with a huge community with which you
-                will have all the help and documentation to create and make your
-                project
-              </p>
+              <img :src="blogCoverPhoto" alt="" style="width: 300px;" />
             </div>
           </vs-dialog>
         </div>
@@ -81,12 +79,50 @@ export default {
   data() {
     return {
       active: false,
+      previewButton: true,
+      file: null,
       editorSettings: {
         modules: {
           imageResize: {},
         },
       },
     };
+  },
+  computed: {
+    profileId() {
+      return this.$store.state.profileId;
+    },
+    blogPhotoName() {
+      return this.$store.state.blogPhotoName;
+    },
+    blogCoverPhoto() {
+      return this.$store.state.blogPhotoFileURL;
+    },
+    blogTitle: {
+      get() {
+        return this.$store.state.blogTitle;
+      },
+      set(payload) {
+        this.$store.commit("updateBlogTitle", payload);
+      },
+    },
+    blogHTML: {
+      get() {
+        return this.$store.state.blogHTML;
+      },
+      set(payload) {
+        this.$store.commit("newBlogPost", payload);
+      },
+    },
+  },
+  methods: {
+    fileChange() {
+      this.file = this.$refs.blogPhoto.files[0];
+      const fileName = this.file.name;
+      this.$store.commit("fileNameChange", fileName);
+      this.$store.commit("createFileURL", URL.createObjectURL(this.file));
+      this.previewButton = false;
+    },
   },
 };
 </script>
@@ -171,17 +207,16 @@ input {
   }
 }
 
-.blog-actions{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding-top: 7px;
+.blog-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-top: 7px;
 
-    .blog-action-button {
-        padding: 3px 10px;
-        margin: 10px 0 0 25px;
-    }
-
+  .blog-action-button {
+    padding: 3px 10px;
+    margin: 10px 0 0 25px;
+  }
 }
 
 /* predef */
@@ -206,6 +241,10 @@ con-footer {
   padding-bottom: 0px;
 }
 .con-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 }
 .footer-dialog {

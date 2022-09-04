@@ -50,6 +50,19 @@ export default new Vuex.Store({
     changeUsername(state, payload){
       state.profileUsername = payload;
     },
+    // blog related
+    newBlogPost(state, payload){
+      state.blogHTML = payload;
+    },
+    updateBlogTitle(state, payload){
+      state.blogTitle = payload;
+    },
+    fileNameChange(state, payload){
+      state.blogPhotoName = payload;
+    },
+    createFileURL(state, payload){
+      state.blogPhotoFileURL = payload; 
+    }
   },
   actions: {
     async getCurrentUser({
