@@ -62,9 +62,9 @@
 
         <div class="blog-actions">
           <router-link class="router-button" to="#">
-            <vs-button>Preview</vs-button>
+            <vs-button class="blog-action-button">Preview</vs-button>
           </router-link>
-          <vs-button>Publish</vs-button>
+          <vs-button class="blog-action-button">Publish</vs-button>
         </div>
       </div>
     </div>
@@ -175,6 +175,13 @@ input {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    padding-top: 7px;
+
+    .blog-action-button {
+        padding: 3px 10px;
+        margin: 10px 0 0 25px;
+    }
+
 }
 
 /* predef */
