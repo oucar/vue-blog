@@ -14,7 +14,12 @@
 
       <div class="search">
         <div class="input-fields">
-          <vs-input label-placeholder="Author" primary v-model="author" type="search">
+          <vs-input
+            label-placeholder="Author"
+            primary
+            v-model="author"
+            type="search"
+          >
             <template #icon> <box-icon name="user"></box-icon> </template
           ></vs-input>
 
@@ -29,9 +34,16 @@
         </div>
 
         <!-- @TODO: All of my blogs will start displaying an animation -->
-        <vs-checkbox v-model="editMode">
+        <vs-checkbox v-if="isAdmin" v-model="editMode">
           Toggle Edit/Delete Mode
         </vs-checkbox>
+
+        <vs-button v-if="isAdmin" class="button" icon gradient animation-type="vertical">
+          Create a new blog
+          <template #animate>
+            <PencilIcon />
+          </template>
+        </vs-button>
       </div>
 
       <div class="blog-previews">
@@ -73,6 +85,7 @@
 </template>
 
 <script>
+import PencilIcon from "@/assets/Icons/pencil.svg";
 export default {
   name: "Blog",
   data() {
@@ -82,6 +95,14 @@ export default {
       editMode: false,
     };
   },
+  components: {
+    PencilIcon,
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.state.isAdmin;
+    },
+  },
 };
 </script>
 
@@ -89,39 +110,40 @@ export default {
 .container {
   display: flex;
   line-height: 1.75;
-
   .blogs {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0 0 40px;
   }
-
   .blog-previews {
     display: flex;
     flex-wrap: wrap;
     max-width: 1200px;
-
     .my-blogs {
       display: flex;
       flex-direction: row;
       position: relative;
     }
   }
-
   .search {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 40px;
   }
-
   .input-fields {
     display: flex;
     width: 450px;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 20px;
+  }
+
+  .button {
+    margin-top: 20px;
+    font-size: 13px;
+    padding: 3px 20px;
   }
 }
 
