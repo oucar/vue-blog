@@ -131,6 +131,7 @@ export default {
     password: "",
     firstName: "",
     lastName: "",
+    isAdmin: false,
     hasVisiblePassword: false,
     isLoading: false,
   }),
@@ -169,6 +170,7 @@ export default {
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName,
+          isAdmin: this.isAdmin,
         });
         this.active = false;
         this.openNotification(
