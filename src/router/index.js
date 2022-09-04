@@ -6,6 +6,7 @@ import Projects from "@/views/Projects.vue";
 import Experiences from "@/views/Experiences.vue";
 import Contact from "@/views/Contact.vue";
 import Profile from "@/views/Profile.vue";
+import CreatePost from "@/views/CreatePost.vue";
 
 Vue.use(VueRouter);
 
@@ -56,6 +57,14 @@ const routes = [
     component: Profile,
     meta: {
       title: 'Profile'
+    }
+  },
+  {
+    path: "/create",
+    name: "CreatePost",
+    component: CreatePost,
+    meta: {
+      title: 'New Post'
     }
   },
 ];
