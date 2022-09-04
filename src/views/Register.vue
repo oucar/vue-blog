@@ -16,6 +16,9 @@
       <div class="con-form">
         <!-- Username -->
         <vs-input v-model="username" placeholder="Username">
+          <template v-if="v$.username.$invalid" #message-danger>
+            Invalid username
+          </template>
           <template #icon>
             <UserIcon />
           </template>
@@ -23,6 +26,9 @@
 
         <!-- Email -->
         <vs-input v-model="email" placeholder="Email">
+          <template v-if="v$.email.$invalid" #message-danger>
+            Invalid email
+          </template>
           <template #icon>
             <EmailIcon />
           </template>
@@ -54,6 +60,9 @@
 
         <!-- First Name -->
         <vs-input v-model="firstName" placeholder="First Name">
+          <template v-if="v$.firstName.$invalid" #message-danger>
+            Invalid first name
+          </template>
           <template #icon>
             <CoolIcon />
           </template>
@@ -61,6 +70,9 @@
 
         <!-- Last name-->
         <vs-input v-model="lastName" placeholder="Last Name">
+          <template v-if="v$.lastName.$invalid" #message-danger>
+            Invalid last name
+          </template>
           <template #icon>
             <SmileIcon />
           </template>
@@ -69,7 +81,17 @@
 
       <template #footer>
         <div class="footer-dialog">
-          <vs-button block @click.prevent="register">
+          <vs-button
+            block
+            @click.prevent="register"
+            :disabled="
+              v$.username.$invalid ||
+                v$.email.$invalid ||
+                v$.firstName.$invalid ||
+                v$.lastName.$invalid ||
+                getProgress !== 100
+            "
+          >
             Register
           </vs-button>
         </div>
@@ -87,8 +109,13 @@ import SmileIcon from "@/assets/Icons/smile.svg";
 import firebase from "firebase/app";
 import "firebase/auth";
 import db from "@/firebase/firebaseInit";
+import useVuelidate from "@vuelidate/core";
+import { required, maxLength, minLength, email} from "@vuelidate/validators";
 export default {
   name: "Register",
+  setup() {
+    return { v$: useVuelidate() };
+  },
   components: {
     HideIcon,
     ShowIcon,
@@ -107,14 +134,26 @@ export default {
     hasVisiblePassword: false,
     isLoading: false,
   }),
+  validations() {
+    return {
+      username: { required, maxLength: maxLength(15), minLength: minLength(3) },
+      email: { required, email, maxLength: maxLength(30), minLength: minLength(3) },
+      firstName: {
+        required,
+        maxLength: maxLength(15),
+        minLength: minLength(3),
+      },
+      lastName: { required, maxLength: maxLength(15), minLength: minLength(3) },
+    };
+  },
   methods: {
     async register() {
       if (
-        this.email !== "" &&
-        this.username !== "" &&
-        this.firstName !== "" &&
-        this.password !== "" &&
-        this.lastName !== ""
+        !this.v$.username.$invalid &&
+        !this.v$.firstName.$invalid &&
+        !this.v$.lastName.$invalid &&
+        !this.v$.email.$invalid &&
+        !this.getProgress !== 100
       ) {
         this.isLoading = true;
         const firebaseAuth = await firebase.auth();

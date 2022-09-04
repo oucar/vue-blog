@@ -43,7 +43,6 @@ import UserIcon from "@/assets/Icons/user.svg";
 import LockAltIcon from "@/assets/Icons/lock-alt.svg";
 import firebase from "firebase/app";
 import "firebase/auth";
-
 export default {
   name: "Login",
   components: {
@@ -82,15 +81,6 @@ export default {
           );
         });
       this.isLoading = false;
-    },
-    forgotPasswordClicked() {
-      // @TODO: Actual Firebase Implementation
-      if (this.forgotPassword === false) this.forgotPassword = true;
-      else {
-        setTimeout(() => {
-          this.forgotPassword = !this.forgotPassword;
-        }, 5000);
-      }
     },
     openNotification(position = null, color, title, message) {
       const notification = this.$vs.notification({
