@@ -35,10 +35,11 @@ export default {
   .quillWrapper {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     img {
       max-height: 400px;
       max-width: 100%;
+      margin: 0 auto;
     }
   }
 
@@ -55,6 +56,7 @@ export default {
     margin-bottom: 16px;
     font-weight: 300;
     font-size: 32px;
+    margin: 16px auto;
   }
   img {
     margin-bottom: 32px;

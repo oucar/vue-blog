@@ -60,10 +60,12 @@
         </div>
 
         <div class="blog-actions">
-          <router-link class="router-button" :to="{name: 'BlogPreview'}">
+          <router-link class="router-button" :to="{ name: 'BlogPreview' }">
             <vs-button class="blog-action-button">Preview</vs-button>
           </router-link>
-          <vs-button class="blog-action-button">Publish</vs-button>
+          <vs-button @click="uploadBlog" class="blog-action-button"
+            >Publish</vs-button
+          >
         </div>
       </div>
     </div>
@@ -72,6 +74,7 @@
 
 <script>
 import firebase from "firebase/app";
+import db from "@/firebase/firebaseInit";
 import "firebase/storage";
 import Quill from "quill";
 window.Quill = Quill;
@@ -126,6 +129,16 @@ export default {
       this.$store.commit("createFileURL", URL.createObjectURL(this.file));
       this.previewButton = false;
     },
+    openNotification(position = null, color, title, message) {
+      const notification = this.$vs.notification({
+        progress: "auto",
+        color,
+        position,
+        title: title,
+        text: message,
+      });
+      console.log(notification);
+    },
     imageHandler(file, Editor, cursorLocation, resetUploader) {
       const storageRef = firebase.storage().ref();
       const docRef = storageRef.child(`documents/blogPostPhotos/${file.name}`);
@@ -144,60 +157,64 @@ export default {
         }
       );
     },
-    // uploadBlog() {
-    //   if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
-    //     if (this.file) {
-    //       this.loading = true;
-    //       const storageRef = firebase.storage().ref();
-    //       const docRef = storageRef.child(
-    //         `documents/BlogCoverPhotos/${this.$store.state.blogPhotoName}`
-    //       );
-    //       docRef.put(this.file).on(
-    //         "state_changed",
-    //         (snapshot) => {
-    //           console.log(snapshot);
-    //         },
-    //         (err) => {
-    //           console.log(err);
-    //           this.loading = false;
-    //         },
-    //         async () => {
-    //           const downloadURL = await docRef.getDownloadURL();
-    //           const timestamp = await Date.now();
-    //           const dataBase = await db.collection("blogPosts").doc();
-    //           await dataBase.set({
-    //             blogID: dataBase.id,
-    //             blogHTML: this.blogHTML,
-    //             blogCoverPhoto: downloadURL,
-    //             blogCoverPhotoName: this.blogCoverPhotoName,
-    //             blogTitle: this.blogTitle,
-    //             profileId: this.profileId,
-    //             date: timestamp,
-    //           });
-    //           await this.$store.dispatch("getPost");
-    //           this.loading = false;
-    //           this.$router.push({
-    //             name: "ViewBlog",
-    //             params: { blogid: dataBase.id },
-    //           });
-    //         }
-    //       );
-    //       return;
-    //     }
-    //     this.error = true;
-    //     this.errorMsg = "Please ensure you uploaded a cover photo!";
-    //     setTimeout(() => {
-    //       this.error = false;
-    //     }, 5000);
-    //     return;
-    //   }
-    //   this.error = true;
-    //   this.errorMsg = "Please ensure Blog Title & Blog Post has been filled!";
-    //   setTimeout(() => {
-    //     this.error = false;
-    //   }, 5000);
-    //   return;
-    // },
+    uploadBlog() {
+      if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
+        if (this.file) {
+        const loading = this.$vs.loading();
+          const storageRef = firebase.storage().ref();
+          const docRef = storageRef.child(
+            `documents/BlogCoverPhotos/${this.$store.state.blogPhotoName}`
+          );
+          docRef.put(this.file).on(
+            "state_changed",
+            (snapshot) => {
+              console.log(snapshot);
+            },
+            (err) => {
+              console.log(err);
+              loading.close();
+            },
+            async () => {
+              const downloadURL = await docRef.getDownloadURL();
+              const timestamp = await Date.now();
+              const dataBase = await db.collection("blogPosts").doc();
+              await dataBase.set({
+                blogID: dataBase.id,
+                blogHTML: this.blogHTML,
+                blogCoverPhoto: downloadURL,
+                // blogCoverPhotoName: this.blogCoverPhotoName,
+                blogTitle: this.blogTitle,
+                profileId: this.profileId,
+                date: timestamp,
+              });
+              await this.$store.dispatch("getPost");
+              loading.close();
+              this.$router.push({
+                name: "ViewBlog",
+                params: { blogid: dataBase.id },
+              });
+            }
+          );
+          return;
+        }
+        // ERROR 1
+        this.openNotification(
+          "bottom-center",
+          "danger",
+          "Validation Error",
+          "Please ensure you uploaded a cover photo!"
+        );
+        return;
+      }
+      // ERROR 2
+      this.openNotification(
+        "bottom-center",
+        "danger",
+        "Validation Error",
+        "Please ensure Blog Title & Blog Post has been filled!"
+      );
+      return;
+    },
   },
 };
 </script>
