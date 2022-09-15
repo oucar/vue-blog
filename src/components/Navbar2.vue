@@ -81,6 +81,7 @@
             </template>
           </vs-tooltip>
         </template>
+        
       </vs-navbar>
     </div>
   </template>
