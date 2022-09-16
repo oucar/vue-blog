@@ -8,7 +8,6 @@
       not-line
       v-model="active"
     >
-      <!-- @TODO: Display name or sidebar icon -->
       <template #left>
         <vs-button
           v-show="isMobileResolution"
@@ -91,9 +90,9 @@
       </template>
     </vs-navbar>
 
+    <!-- Sidebar for mobile resolutions -->
     <vs-sidebar fixed v-model="active" :open.sync="activeSidebar">
       <template #logo>
-        <!-- Logo will go here -->
         <router-link class="logo-text" :to="{ name: 'Home' }">
           <img src="@/assets/Icons/cat.gif" />
         </router-link>
@@ -101,25 +100,33 @@
 
       <vs-sidebar-item id="projects">
         <router-link class="link" :to="{ name: 'Projects' }">
-          Projects
+          <div class="sidebar-item">
+            Projects
+          </div>
         </router-link>
       </vs-sidebar-item>
 
       <vs-sidebar-item id="experiences">
         <router-link class="link" :to="{ name: 'Experiences' }">
-          Experiences
+          <div class="sidebar-item">
+            Experiences
+          </div>
         </router-link>
       </vs-sidebar-item>
 
       <vs-sidebar-item id="blog">
         <router-link class="link" :to="{ name: 'Blog' }">
-          Blog
+          <div class="sidebar-item">
+            Blog
+          </div>
         </router-link>
       </vs-sidebar-item>
 
       <vs-sidebar-item id="contact">
         <router-link class="link" :to="{ name: 'Contact' }">
-          Contact
+          <div class="sidebar-item">
+            Contact
+          </div>
         </router-link>
       </vs-sidebar-item>
 
@@ -178,7 +185,7 @@ export default {
       ];
     },
     isMobileResolution() {
-      if (this.windowWidth < 644) return true;
+      if (this.windowWidth < 726) return true;
       else return false;
     },
   },
@@ -202,6 +209,11 @@ export default {
 img {
   height: 300px;
   width: auto;
+}
+
+.sidebar-item {
+  width: 100vw;
+  height: 30px;
 }
 
 .profile-section {
