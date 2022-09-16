@@ -20,7 +20,7 @@
           <MenuIcon />
         </vs-button>
         <router-link class="link" :to="{ name: 'Home' }">
-          Onur Ucar
+          /home/onur
         </router-link>
       </template>
 
@@ -94,8 +94,8 @@
     <vs-sidebar fixed v-model="active" :open.sync="activeSidebar">
       <template #logo>
         <!-- Logo will go here -->
-        <router-link class="link" :to="{ name: 'Home' }">
-          Onur Ucar
+        <router-link class="logo-text" :to="{ name: 'Home' }">
+          <img src="@/assets/Icons/cat.gif" />
         </router-link>
       </template>
 
@@ -197,6 +197,11 @@ export default {
 
 .menu-button {
   margin-right: 15px;
+}
+
+img {
+  height: 300px;
+  width: auto;
 }
 
 .profile-section {
