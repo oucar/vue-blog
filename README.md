@@ -1,4 +1,4 @@
-# fireblogs
+#  Onur Ucar Personal Portfolio, Blog written in Vue JS, VUEX
 
 ## Project setup
 ```

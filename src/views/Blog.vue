@@ -15,15 +15,6 @@
       <div class="search">
         <div class="input-fields">
           <vs-input
-            label-placeholder="Author"
-            primary
-            v-model="author"
-            type="search"
-          >
-            <template #icon> <box-icon name="user"></box-icon> </template
-          ></vs-input>
-
-          <vs-input
             label-placeholder="Article Name"
             primary
             v-model="articleName"
@@ -138,7 +129,7 @@ export default {
     display: flex;
     width: 450px;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     margin-bottom: 20px;
   }
 
@@ -150,14 +141,10 @@ export default {
 }
 
 @media screen and (max-width: 600px) {
-  .search {
-    margin: 20px;
-  }
   .input-fields {
     display: flex;
     flex-direction: column !important;
     width: 100% !important;
-    height: 100px;
   }
 }
 </style>
